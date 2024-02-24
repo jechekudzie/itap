@@ -23,6 +23,14 @@ class DatabaseSeeder extends Seeder
             PackageSeeder::class,
             LineItemCategoriesTableSeeder::class,
             LineItemsTableSeeder::class,
+            CountriesSeeder::class,
+            ProvinceSeeder::class,
+            CitySeeder::class,
+            AddressTypeSeeder::class,
+            ContactTypeSeeder::class,
+            TitleSeeder::class,
+            GenderSeeder::class,
+            IdentificationTypeSeeder::class,
 
         ]);
 

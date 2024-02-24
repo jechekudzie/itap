@@ -34,7 +34,8 @@
                                 <div class="d-flex align-items-center flex-wrap gap-2">
                                     <div class="flex-grow-1">
 
-                                        <a href="{{route('service-packages.index',$service->slug)}}" class="btn btn-info btn-sm add-btn">
+                                        <a href="{{route('service-packages.index',$service->slug)}}"
+                                           class="btn btn-info btn-sm add-btn">
                                             <i class="fa fa-arrow-left"></i> Back
                                         </a>
                                         <a id="new-button" class="btn btn-success btn-sm add-btn">
@@ -73,10 +74,12 @@
                             <div class="card-body">
                                 <!--start table-->
 
-                                <form action="{{ route('service-packages.line-items.store', $servicePackage->id) }}" method="POST">
+                                <form action="{{ route('service-packages.line-items.store', $servicePackage->id) }}"
+                                      method="POST">
                                     @csrf
                                     <div class="modal-body">
-                                        <input type="hidden" name="service_package_id" value="{{ $servicePackage->id }}">
+                                        <input type="hidden" name="service_package_id"
+                                               value="{{ $servicePackage->id }}">
 
                                         @foreach(\App\Models\LineItemCategory::with('lineItems')->get() as $category)
                                             <div class="mb-4">
@@ -90,7 +93,8 @@
                                                                        id="line_item_{{ $lineItem->id }}"
                                                                        value="{{ $lineItem->id }}"
                                                                        @if($servicePackage->packageLineItems->contains('line_item_id', $lineItem->id)) checked @endif>
-                                                                <label class="form-check-label" for="line_item_{{ $lineItem->id }}">
+                                                                <label class="form-check-label"
+                                                                       for="line_item_{{ $lineItem->id }}">
                                                                     {{ $lineItem->name }}
                                                                 </label>
                                                             </div>
@@ -100,7 +104,9 @@
                                                                    placeholder="Qty"
                                                                    min="0" max="20"
                                                                    style="width: 100px;"
-                                                                   value="{{ $servicePackage->packageLineItems->where('line_item_id', $lineItem->id)->first()->quantity ?? 0 }}">
+                                                                   value="{{ $servicePackage->packageLineItems->where('line_item_id', $lineItem->id)->first()->quantity ?? 0 }}"
+                                                                {{ $lineItem->is_billable == 0 ? 'readonly' : '' }}
+                                                            >
                                                         </div>
                                                     @endforeach
                                                 </div>
@@ -111,7 +117,8 @@
                                     </div>
                                     <div class="modal-footer">
                                         <div class="hstack gap-2">
-                                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close
+                                            </button>
                                             <button type="submit" class="btn btn-success">Add Line Items</button>
                                         </div>
                                     </div>
@@ -138,10 +145,10 @@
 @push('scripts')
 
     <script>
-        document.querySelector('form').addEventListener('submit', function(e) {
+        document.querySelector('form').addEventListener('submit', function (e) {
             let isValid = true;
 
-            document.querySelectorAll('.form-check-input').forEach(function(checkbox) {
+            document.querySelectorAll('.form-check-input').forEach(function (checkbox) {
                 let quantityInput = checkbox.closest('.col-md-4').querySelector('input[type="number"]');
 
                 if (checkbox.checked && !quantityInput.value) {

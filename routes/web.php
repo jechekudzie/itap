@@ -28,9 +28,14 @@ Route::get('/', function () {
 });
 
 
+//routes for site service-packages
+Route::get('/web/service-packages/{service}', [\App\Http\Controllers\SiteController::class, 'servicePackage'])->name('web.service-packages');
+
+
 Route::get('/admin', function () {
     return view('admin.index');
 })->name('admin.index');
+
 
 //Display all organisation types via API
 Route::get('/admin/organisation-types', [OrganisationTypeController::class, 'index'])->name('admin.organisation-types.index');
@@ -71,7 +76,6 @@ Route::get('/admin/permissions/{organisation}/{role}/assignPermission', [\App\Ht
 Route::post('/admin/permissions/{organisation}/{role}/assignPermissionToRole', [\App\Http\Controllers\PermissionController::class, 'assignPermissionToRole'])->name('admin.permissions.assign-permission-to-role');
 
 
-
 // Routes for ServiceController
 Route::get('/admin/services', [ServiceController::class, 'index'])->name('services.index');
 Route::get('/admin/services/create', [ServiceController::class, 'create'])->name('services.create');
@@ -109,7 +113,6 @@ Route::patch('/admin/package-categories/{packageCategory}/update', [\App\Http\Co
 Route::delete('/admin/package-categories/{packageCategory}', [\App\Http\Controllers\PackageCategoryController::class, 'destroy'])->name('package-categories.destroy');
 
 
-
 // Routes for PackageController
 Route::get('/admin/packages', [PackageController::class, 'index'])->name('packages.index');
 Route::post('/admin/packages', [PackageController::class, 'store'])->name('packages.store');
@@ -132,9 +135,6 @@ Route::post('/admin/service-package-line-items/{servicePackage}/line-items', [Se
 Route::get('/admin/service-package-line-items/{servicePackage}/line-items/{lineItem}/edit', [ServicePackageLineItemController::class, 'edit'])->name('service-packages.line-items.edit');
 Route::patch('/admin/service-package-line-items/{servicePackage}/line-items/{lineItem}', [ServicePackageLineItemController::class, 'update'])->name('service-packages.line-items.update');
 Route::delete('/admin/service-package-line-items//{servicePackage}/line-items/{lineItem}', [ServicePackageLineItemController::class, 'destroy'])->name('service-packages.line-items.destroy');
-
-
-
 
 
 Route::get('/dashboard', function () {
