@@ -30,11 +30,18 @@ Route::get('/', function () {
 
 //routes for site service-packages
 Route::get('/web/service-packages/{service}', [\App\Http\Controllers\SiteController::class, 'servicePackage'])->name('web.service-packages');
+Route::get('/web/step1/{service}', [\App\Http\Controllers\SiteController::class, 'step1'])->name('booking-form');
 
 
 Route::get('/admin', function () {
     return view('admin.index');
 })->name('admin.index');
+
+
+Route::get('/admin/index', function () {
+    return view('backend.index');
+})->name('admin.index');
+
 
 
 //Display all organisation types via API
@@ -136,6 +143,15 @@ Route::get('/admin/service-package-line-items/{servicePackage}/line-items/{lineI
 Route::patch('/admin/service-package-line-items/{servicePackage}/line-items/{lineItem}', [ServicePackageLineItemController::class, 'update'])->name('service-packages.line-items.update');
 Route::delete('/admin/service-package-line-items//{servicePackage}/line-items/{lineItem}', [ServicePackageLineItemController::class, 'destroy'])->name('service-packages.line-items.destroy');
 
+
+// Routes for Bookings
+Route::get('/admin/bookings', [\App\Http\Controllers\BookingController::class, 'index'])->name('bookings.index');
+Route::get('/admin/bookings/create', [\App\Http\Controllers\BookingController::class, 'create'])->name('bookings.create');
+Route::post('/admin/bookings/store', [\App\Http\Controllers\BookingController::class, 'store'])->name('bookings.store');
+Route::get('/admin/bookings/{booking}', [\App\Http\Controllers\BookingController::class, 'show'])->name('bookings.show');
+Route::get('/admin/bookings/{booking}/edit', [\App\Http\Controllers\BookingController::class, 'edit'])->name('bookings.edit');
+Route::patch('/admin/bookings/{booking}/update', [\App\Http\Controllers\BookingController::class, 'update'])->name('bookings.update');
+Route::delete('/admin/bookings/{booking}', [\App\Http\Controllers\BookingController::class, 'destroy'])->name('bookings.destroy');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

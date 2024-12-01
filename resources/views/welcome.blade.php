@@ -5,6 +5,42 @@
 @section('title', 'iTAP Media - Welcome to our website')
 
 @section('content')
+
+    <style>
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .primary-input-group {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .primary-input-group.full-width {
+            flex: 0 0 100%;
+            margin-right: 0;
+        }
+
+        .primary-input-group:last-child {
+            margin-right: 0;
+        }
+
+        .wizard-step {
+            display: none;
+        }
+
+        .active-step {
+            display: block;
+        }
+
+        .submit-btn, .next-btn, .prev-btn {
+            margin-top: 20px;
+        }
+
+        /* Adjustments might be needed based on your existing styles */
+
+    </style>
     <div class="main-slider-wrapper gray-300">
         <!-- ===============  hero area start  =============== -->
         <div class="hero-area">
@@ -177,7 +213,7 @@
                                     <div class="row">
                                         @foreach($serviceCategory->services as $service)
 
-                                            <div class="col-lg-4 col-md-6 wow fadeInUp animated" data-wow-delay="200ms"
+                                            <div class="col-lg-4 col-md-6 {{--wow fadeInUp animated--}}" data-wow-delay="200ms"
                                                  data-wow-duration="1500ms">
                                                 <div class="event-card-md">
                                                     <div class="event-thumb">
@@ -191,33 +227,6 @@
 
                                                         </div>
                                                     </div>
-
-                                                    <div class="event-content">
-
-                                                        <div class="event-bottom">
-                                                            <div class="event-readme">
-                                                                <a href="{{route('web.service-packages',$service->slug)}}">Book
-                                                                    Now</a>
-                                                            </div>
-
-                                                            <div class="event-share-icons">
-                                                                <ul class="share-options">
-                                                                    <li><a href="#"><i
-                                                                                class="fab fa-facebook-f"></i></a>
-                                                                    </li>
-                                                                    <li><a href="#"><i class="fab fa-instagram"></i></a>
-                                                                    </li>
-                                                                    <li><a href="#"><i
-                                                                                class="fab fa-linkedin-in"></i></a>
-                                                                    </li>
-                                                                    <li><a href="#"><i class="fab fa-twitter"></i></a>
-                                                                    </li>
-                                                                </ul>
-                                                                <div class="share-btn"><i class="bi bi-share"></i></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
 
                                                 </div>
                                             </div>
@@ -235,6 +244,6 @@
     </div>
     <!-- ===============  Event Area end  =============== -->
 
+
 @endsection
 
-@stack('scripts')

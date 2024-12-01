@@ -17,6 +17,12 @@ class Booking extends Model
         return $this->belongsTo(Customer::class);
     }
 
+    //has many payments
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+
 
 
 }

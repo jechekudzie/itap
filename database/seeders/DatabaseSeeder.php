@@ -14,9 +14,9 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             ModuleSeeder::class,
-            OrganisationTypesSeeder::class,
+           /* OrganisationTypesSeeder::class,
             OrganisationTypeRelationshipSeeder::class,
-            OrganisationsSeeder::class,
+            OrganisationsSeeder::class,*/
             ServiceCategorySeeder::class,
             ServicesTableSeeder::class,
             PackageCategorySeeder::class,
@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
             TitleSeeder::class,
             GenderSeeder::class,
             IdentificationTypeSeeder::class,
+            PaymentMethodSeeder::class,
 
         ]);
 

@@ -64,6 +64,7 @@ class ServicePackageController extends Controller
             'slug' => 'nullable|string',
         ]);
 
+        //dd($validatedData);
         $servicePackage->update($validatedData);
 
 

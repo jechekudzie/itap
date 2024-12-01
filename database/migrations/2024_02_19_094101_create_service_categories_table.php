@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('service_categories', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('category_id')->nullable();
             $table->string('name');
             $table->longText('description')->nullable();
             $table->string('slug')->nullable();

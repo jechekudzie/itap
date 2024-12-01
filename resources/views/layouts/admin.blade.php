@@ -322,6 +322,34 @@
                             </ul>
                         </div>
                     </li>
+
+
+                    <li class="menu-title"><span data-key="t-menu">All Booking</span></li>
+                    <li class="nav-item">
+                        <a style="font-weight: bolder;" class="nav-link menu-link collapsed" href="#services"
+                           data-bs-toggle="collapse"
+                           role="button" aria-expanded="false" aria-controls="services">
+                            <span data-key="t-dashboards">Bookings & Payment</span>
+                        </a>
+                        <div class="collapse menu-dropdown" id="services">
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item">
+                                    <a href="{{route('bookings.index')}}"
+                                       class="nav-link {{ Request::routeIs('bookings.index') ? 'active' : '' }}">
+                                        Bookings
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a href="{{route('bookings.index')}}"
+                                       class="nav-link {{ Request::routeIs('bookings.index') ? 'active' : '' }}">
+                                        Payments
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
                 </ul>
             </div>
             <!-- Sidebar -->

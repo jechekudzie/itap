@@ -22,7 +22,7 @@ class LineItemsTableSeeder extends Seeder
                 ['name' => 'Drone', 'price' => 0, 'is_billable' => 1],
             ],
             'COVERAGE' => [
-                ['name' => 'hours ', 'price' => 0, 'is_billable' => 1],
+                ['name' => 'Hours ', 'price' => 0, 'is_billable' => 1],
                 ['name' => 'Pre-Shoot/Photos ', 'price' => 0, 'is_billable' => 0],
                 ['name' => 'Preps ', 'price' => 0, 'is_billable' => 0],
                 ['name' => 'Ceremony ', 'price' => 0, 'is_billable' => 0],

@@ -20,6 +20,12 @@ class Customer extends Model
         return $this->hasMany(Booking::class);
     }
 
+    //has many payments
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+
 
     public function title()
     {

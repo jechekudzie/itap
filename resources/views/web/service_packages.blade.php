@@ -45,7 +45,7 @@
                         </div>
                         <h2 class="page-title">{{$service->name}}</h2>
                         <ul class="page-switcher">
-                            <li><a href="index.html">Home <i class="bi bi-caret-right"></i></a></li>
+                            <li><a href="{{url('/')}}">Home <i class="bi bi-caret-right"></i></a></li>
                             <li>{{$service->serviceCategory->name}}</li>
                         </ul>
                     </div>
@@ -66,7 +66,7 @@
                     </div>
                     <div class="section-head">
                         <h3>Choose <span style="color: #ce1446 !important;"
-                                         class=" text-style-one">{{$service->name}}</span> Package</h3>
+                                         class=" text-style-one">{{$service->name}} </span> Packages</h3>
                     </div>
                 </div>
             </div>
@@ -177,7 +177,7 @@
                                                         @endforeach
 
                                                         <div class="mt-4">
-                                                            <a href="{{ route('service-packages.line-items.create', $servicePackage->id) }}"
+                                                            <a href="{{ route('booking-form', $servicePackage->id) }}"
                                                                class="btn btn-danger w-100 waves-effect waves-light">Book
                                                                 Now</a>
                                                         </div>

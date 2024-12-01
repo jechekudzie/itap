@@ -31,7 +31,6 @@ class OrganisationChildrenController extends Controller
                /* 'organisation_id' => $organisation->id,*/
             ]);
 
-
             //dd($parentOrganisation);
 
             return redirect()->route('organisation.organisations.index', [$organisation->slug,$organisationType->slug,$parentOrganisation->slug])->with('success', 'Organisation created successfully');

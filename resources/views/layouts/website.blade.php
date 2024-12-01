@@ -30,17 +30,6 @@
 </head>
 <body>
 
-<!-- Start Preloader Area -->
-{{--<div class="preloader">
-    <div class="loader">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-    </div>
-</div>--}}
-<!-- End Preloader Area -->
-
 <!-- ===============  header area start =============== -->
 <header>
     <div class="header-area header-style-one">
