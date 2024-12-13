@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.backend')
 
 @push('head')
 
@@ -9,187 +9,170 @@
 
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
 @endpush
+
 @section('content')
-    <div class="page-content">
-        <div class="container-fluid">
-            <!-- start page title -->
-            <div class="row">
-                <div class="col-12">
-                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0" id="page-title">{{$organisation->name}} - Organisation roles</h4>
-                        <div class="page-title-right">
-                            <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">CRM</a></li>
-                                <li class="breadcrumb-item active">Organisation roles</li>
-                            </ol>
-                        </div>
-                    </div>
+
+    <div class="pb-5">
+        <div class="row g-4">
+            <div class="col-12 col-xxl-12">
+                <div class="mb-8">
+                    <h2 class="mb-2">{{$organisation->name}}</h2>
+                    <h5 class="text-700 fw-semi-bold">Roles and Permissions</h5>
                 </div>
-                <!-- end page title -->
+                <div class="col-auto">
+                    <a class="btn btn-primary px-5" href="{{route('admin.organisations.manage')}}">
+                        <i class="fa-solid fa-caret-left me-2"></i>
+                        Back to organisations
+                    </a>
 
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="d-flex align-items-center flex-wrap gap-2">
-                                    <div class="flex-grow-1">
+                    <a class="btn btn-primary px-5" href="{{route('admin.organisation-roles.index',$organisation->slug)}}">
+                        <i class="fa-solid fa-plus me-2"></i>
+                        Add new role
+                    </a>
+                </div>
 
-                                        <a href="{{route('admin.organisations.manage')}}"
-                                           class="btn btn-info btn-sm add-btn">
-                                            <i class="fa fa-arrow-left"></i> Back to list
-                                        </a>
-                                        <button id="new-button" class="btn btn-success btn-sm add-btn">
-                                            <i class="fa fa-plus"></i> Add new
-                                        </button>
+                <br/>
+                <div id="messageContainer"></div>
+                <div id="errorContainer"></div>
+                <!-- Start custom content -->
+                <div class="row g-4">
+
+                    <div class="col-9 col-xl-9">
+                        <div class="mb-9">
+                            <div class="card shadow-none border border-300 my-4"
+                                 data-component-card="data-component-card">
+                                <div class="card-header p-4 border-bottom border-300 bg-soft">
+                                    <div class="row g-3 justify-content-between align-items-center">
+                                        <div class="col-12 col-md">
+                                            <h4 class="text-900 mb-0 card-title" data-anchor="data-anchor"> {{$organisation->name}} - Roles and Permissions</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body p-0">
+                                    <div class="p-4 code-to-copy">
+                                        <div>
+                                            <div class="table-responsive">
+                                                <table style="width: 100%;" id="buttons-datatables"
+                                                       class="display table table-bordered dataTable no-footer"
+                                                       aria-describedby="buttons-datatables_info">
+                                                    <thead>
+                                                    <tr>
+                                                        <th class="sorting sorting_asc" tabindex="0"
+                                                        >#
+                                                        </th>
+                                                        <th class="sorting" tabindex="0">Role
+                                                        </th>
+
+                                                        <th class="sorting" tabindex="0" >Guard name
+                                                        </th>
+
+                                                        <th class="sorting" tabindex="0">Permissions</th>
+
+                                                        <th class="sorting" tabindex="0">Action</th>
+
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    @foreach($roles as $role)
+                                                        <tr class="even">
+                                                            <td class="sorting_1">{{$loop->iteration}}</td>
+                                                            <td>{{$role->name}}</td>
+                                                            <td>{{$role->guard_name}}</td>
+
+
+                                                            <td>
+                                                                <a href="{{route('admin.permissions.assign',[$organisation->slug,$role->id])}}"
+                                                                   class="btn btn-sm btn-primary" title="View permissions">
+                                                                    <i class="fa fa-terminal"></i> Assign Permissions
+                                                                </a>
+                                                            </td>
+                                                            <td>
+                                                                <!-- Edit Button -->
+                                                                <a href="javascript:void(0);" class="edit-button btn btn-sm btn-primary"
+                                                                   data-name="{{ $role->name }}" data-id="{{ $role->id }}" title="Edit">
+                                                                    <i class="fa fa-pencil"></i>
+                                                                </a>
+
+                                                                <!-- Delete Button -->
+                                                                <form
+                                                                    action="{{ route('admin.organisation-roles.destroy', $role->id) }}"
+                                                                    method="POST" onsubmit="return confirm('Are you sure?');"
+                                                                    style="display: inline-block;">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="submit" class="btn btn-sm btn-danger" title="Delete">
+                                                                        <i class="fa fa-trash"></i>
+                                                                    </button>
+                                                                </form>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!--end col-->
-                    <div class="col-xxl-9">
-                        @if(session()->has('errors'))
-                            @if($errors->any())
-
-                                @foreach($errors->all() as $error)
-                                    <!-- Success Alert -->
-                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                        <strong> Errors! </strong> {{ $error }}
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                                aria-label="Close"></button>
+                    <div class="col-3 col-xl-3">
+                        <div class="mb-9">
+                            <div class="card shadow-none border border-300 my-4"
+                                 data-component-card="data-component-card">
+                                <div class="card-header p-4 border-bottom border-300 bg-soft">
+                                    <div class="row g-3 justify-content-between align-items-center">
+                                        <div class="col-12 col-md">
+                                            <h4 id="card-title" class="text-900 mb-0" data-anchor="data-anchor">Add Role</h4>
+                                        </div>
                                     </div>
-                                @endforeach
+                                </div>
+                                <div class="card-body p-0">
+                                    <div class="p-4 code-to-copy">
+                                        <form id="edit-form"
+                                              action="{{route('admin.organisation-roles.store',$organisation->slug)}}"
+                                              method="post" enctype="multipart/form-data">
+                                            <input type="hidden" name="_method" value="POST">
+                                            @csrf
+                                            <div class="mb-3">
 
-                            @endif
-                        @endif
-                        @if(session('success'))
-                            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                <strong>Message!</strong> {{ session('success') }}
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                        aria-label="Close"></button>
-                            </div>
-                        @endif
-                        <div class="card">
-                            <div class="card-body">
-                                <!--start table-->
-                                <table style="width: 100%;" id="buttons-datatables"
-                                       class="display table table-bordered dataTable no-footer"
-                                       aria-describedby="buttons-datatables_info">
-                                    <thead>
-                                    <tr>
-                                        <th class="sorting sorting_asc" tabindex="0"
-                                            aria-controls="buttons-datatables" rowspan="1" colspan="1"
-                                            aria-sort="ascending"
-                                            aria-label="Name: activate to sort column descending"
-                                            style="width: 224.4px;">#
-                                        </th>
-                                        <th class="sorting" tabindex="0" aria-controls="buttons-datatables"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Position: activate to sort column ascending"
-                                            style="width: 336.4px;">Role
-                                        </th>
+                                                <label class="form-label" for="exampleFormControlInput">Role</label>
+                                                <input class="form-control" name="name" id="name" type="text"
+                                                       placeholder="Enter role eg. finance officer"/>
+                                            </div>
 
-                                        <th class="sorting" tabindex="0" aria-controls="buttons-datatables"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Position: activate to sort column ascending"
-                                            style="width: 336.4px;">Guard name
-                                        </th>
-
-                                        <th class="sorting" tabindex="0" aria-controls="buttons-datatables"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Position: activate to sort column ascending"
-                                            style="width: 336.4px;">Permissions
-                                        </th>
-
-                                        <th class="sorting" tabindex="0" aria-controls="buttons-datatables"
-                                            rowspan="1" colspan="1"
-                                            aria-label="Salary: activate to sort column ascending"
-                                            style="width: 112.4px;">Action
-                                        </th>
-
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($roles as $role)
-                                        <tr class="even">
-                                            <td class="sorting_1">{{$loop->iteration}}</td>
-                                            <td>{{$role->name}}</td>
-                                            <td>{{$role->guard_name}}</td>
-
-
-                                            <td>
-                                                <a href="{{route('admin.permissions.assign',[$organisation->slug,$role->id])}}"
-                                                   class="btn btn-sm btn-primary" title="View permissions">
-                                                    <i class="fa fa-terminal"></i> Assign Permissions
-                                                </a>
-                                            </td>
-                                            <td>
-                                                <!-- Edit Button -->
-                                                <a href="javascript:void(0);" class="edit-button btn btn-sm btn-primary"
-                                                   data-name="{{ $role->name }}" data-id="{{ $role->id }}" title="Edit">
-                                                    <i class="fa fa-pencil"></i>
-                                                </a>
-
-                                                <!-- Delete Button -->
-                                                <form
-                                                    action="{{ route('admin.organisation-roles.destroy', $role->id) }}"
-                                                    method="POST" onsubmit="return confirm('Are you sure?');"
-                                                    style="display: inline-block;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-sm btn-danger" title="Delete">
-                                                        <i class="fa fa-trash"></i>
-                                                    </button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                                <!--end table-->
+                                            <hr/>
+                                            <div class="col-12">
+                                                <div class="row ">
+                                                    <div >
+                                                        <button id="submit-button" class="btn btn-primary btn-sm w-100">Add New Role</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <!--end col-->
-                    <div class="col-xxl-3">
-                        <div class="card border card-border-light">
-                            <div class="card-header">
-                                <h6 id="card-title" class="card-title mb-0">Add Organisation role</h6>
-                            </div>
-                            <div class="card-body">
-                                <form id="edit-form"
-                                      action="{{route('admin.organisation-roles.store',$organisation->slug)}}"
-                                      method="post" enctype="multipart/form-data">
-                                    <input type="hidden" name="_method" value="POST">
-                                    @csrf
-                                    <div class="mb-3">
-                                        <label for="name" class="form-label">Organisation role</label>
-                                        <input type="text" name="name" class="form-control" id="name"
-                                               placeholder="Enter role" value="">
-                                    </div>
-
-                                    <div class="text-end">
-                                        <button id="submit-button" type="submit" class="btn btn-primary">Add New
-                                        </button>
-                                    </div>
-                                </form>
-
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <!--end col-->
-                    <!--end card-->
                 </div>
 
+                <!-- end custom content -->
+
             </div>
-            <!--end row-->
+
 
         </div>
-        <!-- container-fluid -->
     </div>
-@stop
+
+    <script>
+
+    </script>
+
+@endsection
+
 @push('scripts')
     <!--datatable js-->
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
@@ -246,8 +229,6 @@
                 $('#page-title').text('Add New Organisation role');
             });
         });
-
-
     </script>
 
 @endpush

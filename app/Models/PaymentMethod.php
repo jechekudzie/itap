@@ -2,16 +2,21 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
-class Gender extends Model
+class PaymentMethod extends Model
 {
+    use HasFactory,HasSlug;
 
-    use HasSlug;
     protected $guarded = [];
 
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
 
     public function getSlugOptions(): SlugOptions
     {
@@ -19,6 +24,7 @@ class Gender extends Model
             ->generateSlugsFrom('name')
             ->saveSlugsTo('slug');
     }
+
 
     public function getRouteKeyName()
     {

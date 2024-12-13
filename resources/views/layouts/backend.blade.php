@@ -133,7 +133,7 @@
                                         <a class="nav-link {{ Request::routeIs('admin.organisations.manage') ? 'active' : '' }} "
                                            href="{{route('admin.organisations.manage')}}" data-bs-toggle=""
                                            aria-expanded="false">
-                                            <div class="d-flex align-items-center"><span class="nav-link-text">Manage Companies</span>
+                                            <div class="d-flex align-items-center"><span class="nav-link-text">Manage Structure</span>
                                             </div>
                                         </a>
                                         <!-- more inner pages-->
@@ -187,6 +187,25 @@
                                         </a>
                                         <!-- more inner pages-->
                                     </li>
+                                    
+                                    <li class="nav-item">
+                                        <a class="nav-link {{ Request::routeIs(['equipment-categories.index', 'specification-templates.index']) ? 'active' : '' }}" href="{{ route('equipment-categories.index') }}" data-bs-toggle="" aria-expanded="false">
+                                            <div class="d-flex align-items-center">
+                                                <span class="nav-link-text">Equipment Categories</span>
+                                            </div>
+                                        </a>
+                                        <!-- more inner pages-->
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link {{ Request::routeIs('equipment.*') ? 'active' : '' }}" href="{{ route('equipment.index') }}" data-bs-toggle="" aria-expanded="false">
+                                            <div class="d-flex align-items-center">
+                                                <span class="nav-link-text">Equipment</span>
+                                            </div>
+                                        </a>
+                                        <!-- more inner pages-->
+                                    </li>
+
+                                    
                                 </ul>
                             </div>
                         </div>

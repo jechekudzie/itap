@@ -1,105 +1,109 @@
-@extends('layouts.admin')
+@extends('layouts.backend')
 
 @section('content')
-    <div class="page-content">
-        <div class="container-fluid">
-            <!-- start page title -->
-            <div class="row">
-                <div class="col-12">
-                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                        <h4 class="mb-sm-0" id="page-title">Organisations</h4>
-                        <div class="page-title-right">
-                            <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">CRM</a></li>
-                                <li class="breadcrumb-item active">Organisations</li>
-                            </ol>
-                        </div>
-                    </div>
+
+    <div class="pb-5">
+        <div class="row g-4">
+            <div class="col-12 col-xxl-12">
+                <div class="mb-8">
+                    <h2 class="mb-2">Company overview</h2>
+                    <h5 class="text-700 fw-semi-bold">The hierarchy for iTAP Media.</h5>
                 </div>
-                <!-- end page title -->
+                <div class="col-auto">
+                    <a class="btn btn-primary px-5" href="{{route('admin.organisations.index')}}">
+                        <i class="fa-solid fa-refresh me-2"></i>
+                        Refresh
+                    </a>
 
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="d-flex align-items-center flex-wrap gap-2">
-                                    <div class="flex-grow-1">
+                </div>
 
-                                        <a href="" class="btn btn-info add-btn">
-                                            <i class="fa fa-refresh"></i> Refresh
-                                        </a>
-                                        <button id="new-button" class="btn btn-success add-btn">
-                                            <i class="fa fa-plus"></i> Add new
-                                        </button>
+                <br/>
+                <div id="messageContainer"></div>
+                <div id="errorContainer"></div>
+                <!-- Start custom content -->
+                <div class="row g-4">
+                    <div class="col-md-4 col-xl-4">
+                        <div class="mb-9">
+                            <div class="card shadow-none border border-300 my-4"
+                                 data-component-card="data-component-card">
+                                <div class="card-header p-4 border-bottom border-300 bg-soft">
+                                    <div class="row g-3 justify-content-between align-items-center">
+                                        <div class="col-12 col-md">
+                                            <h4 class="text-900 mb-0" data-anchor="data-anchor">Structure</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body p-0">
+                                    <div class="p-4 code-to-copy">
+                                        <!--start tree-->
+                                        <div style="overflow:scroll; height:400px;" id="tree"></div>
+                                        <!--end tree-->
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!--end col-->
-                    <div class="col-xxl-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <!--start tree-->
-                                <div style="overflow:scroll; height:600px;" id="tree"></div>
-                                <!--end tree-->
-                            </div>
-                        </div>
-                    </div>
-                    <!--end col-->
-                    <div class="col-xxl-8">
-                        <!-- Place this where you want to display messages -->
-                        <div id="messageContainer" class="messageContainer"></div>
-                        <div id="errorContainer"></div>
-                        <!-- Rest of your HTML -->
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="card border card-border-light">
-                                    <div class="card-header">
-                                        <p id="location"></p>
-                                        <h6 id="card-title" class="card-title mb-0">Add New Organisation</h6>
-                                        <p style="font-size: 15px;color: red;"><i class="fa fa-arrow-left"></i>
-                                            Select an
-                                            organisation type</p>
+
+                    <div class="col-md-8 col-xl-8 ">
+                        <div class="mb-9">
+                            <div class="card shadow-none border border-300 my-4"
+                                 data-component-card="data-component-card">
+                                <div class="card-header p-4 border-bottom border-300 bg-soft">
+                                    <div class="row g-3 justify-content-between align-items-center">
+                                        <div class="col-12 col-md">
+                                            <h4 class="text-900 mb-0 card-title" id="card-title" data-anchor="data-anchor">Add New</h4>
+                                            <p style="font-size: 15px;color: red;"><i class="fa fa-arrow-left"></i>
+                                                Select an
+                                                organisation type</p>
+                                        </div>
                                     </div>
-                                    <div class="card-body">
+                                </div>
+                                <div class="card-body p-0">
+                                    <div class="p-4 code-to-copy">
                                         <form id="organisationForm" action="" method="post"
                                               enctype="multipart/form-data">
                                             <input type="hidden" name="_method" value="POST">
                                             @csrf
                                             <div class="mb-3">
-                                                <label for="name" class="form-label">Organisation</label>
-                                                <input type="text" name="name" class="form-control"
-                                                       id="fieldName"
-                                                       placeholder="Enter organisation name" value="">
+                                                <label id="label" class="form-label" for="exampleFormControlInput">Subsidiary</label>
+                                                <input class="form-control" name="name" id="fieldName" type="text"
+                                                       placeholder="Enter name"/>
                                             </div>
+                                            <div class="mb-0">
+                                                <label class="form-label" for="exampleTextarea">Describe Organisation Type</label>
+                                                <textarea name="description" class="form-control" id="fieldDescription" rows="4"></textarea>
+                                            </div>
+
                                             <!-- Make sure the name attribute matches your database column name -->
                                             <input type="hidden" name="parent_id" value="" id="parent_id">
                                             <input type="hidden" name="parent_name" value="" id="parent_name">
                                             <input type="hidden" name="organisation_type" value="" id="organisation_type">
                                             <input type="hidden" name="organisation_type_id" value="" id="organisation_type_id">
 
-                                            <div class="text-start">
-                                                <button id="submit-button" type="submit"
-                                                        class="btn btn-primary">Add New
-                                                </button>
+                                            <hr/>
+
+                                            <div class="col-12">
+                                                <div class="row ">
+                                                    <div >
+                                                        <button id="submit-button" class="btn btn-primary btn-sm">Add New</button>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </form>
                                     </div>
                                 </div>
-                            </div><!-- end card-body -->
-                        </div><!-- end card -->
+                            </div>
+                        </div>
                     </div>
-
-
                 </div>
 
 
+                <!-- end custom content -->
+
             </div>
-            <!--end row-->
+
 
         </div>
-        <!-- container-fluid -->
     </div>
 
     <script>
@@ -165,9 +169,7 @@
 
             var submitButton = $('#submit-button');
             var cardTitle = $('#card-title');
-            var pageTitle = $('#page-title');
-
-
+            var label = $('#label');
 
             // Handle node selection
             tree.on('select', function (e, $node, id) {
@@ -189,16 +191,15 @@
                     organisationName = nodeName;
                     organisationSlug = nodeData.slug;
 
-                    cardTitle.text('Add - ' + organisationName + ' for ' + parentName);
-                    pageTitle.text('Add - ' + organisationName);
 
-                   /* alert('Parent id '+ parentId + ' and Parent Name '+ parentName + ' Type id '+ typeId + ' and Type Name '+ typeName);*/
-
-                    submitButton.text('Add ' + organisationName + ' New');
+                    submitButton.text('Add New ' + organisationName);
+                    cardTitle.text('Add New - ' + organisationName);
                     $('#parent_id').val(parentId);
                     $('#parent_name').val(parentName);
                     $('#organisation_type').val(typeName);
                     $('#organisation_type_id').val(typeId);
+
+
 
                     if (organisationType === 'ot') {
                         organisationForm.show();
@@ -206,6 +207,7 @@
                         clearOrganisationTypeFields();
                         $('#organisationForm').attr('action', '/admin/organisations/store');
                         actionUrl = '/admin/organisations/store';
+                        label.text('Add new ' + organisationName);
                         manageOrganisation.hide();
                     }
 
@@ -217,6 +219,7 @@
                         submitButton.text('Update ' + organisationName);
 
                         cardTitle.text('Edit - ' + organisationName);
+                        label.text('Edit ' + organisationName);
                         fetchOrganisation(organisationSlug);
                     }
 
@@ -248,9 +251,10 @@
 
                         if (response.success) {
                             // Display success message
-                            $('#messageContainer').html('<div class="alert alert-success alert-dismissible fade show" role="alert">' +
-                                '<strong>Message!</strong> ' + response.message +
-                                '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
+                            $('#messageContainer').html('<div class="alert alert-outline-success d-flex align-items-center" role="alert">' +
+                                '<span class="fas fa-check-circle text-success fs-3 me-3"></span>' +
+                                '<p class="mb-0 flex-1">' + response.message + '</p>' +
+                                '<button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>' +
                                 '</div>');
                         }
 
@@ -264,9 +268,10 @@
                             var errors = xhr.responseJSON.errors;
                             var errorsHtml = '';
                             $.each(errors, function(key, value) {
-                                errorsHtml += '<div class="alert alert-danger alert-dismissible fade show" role="alert">' +
-                                    '<strong>Error!</strong> ' + value[0] + // Assuming 'value' is an array of messages
-                                    '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
+                                errorsHtml += '<div class="alert alert-outline-danger d-flex align-items-center" role="alert">' +
+                                    '<span class="fas fa-times-circle text-danger fs-3 me-3"></span>' +
+                                    '<p class="mb-0 flex-1">' + value[0] + '</p>' + // Use 'value[0]' as the message
+                                    '<button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>' +
                                     '</div>';
                             });
                             $('#errorContainer').html(errorsHtml);
@@ -355,6 +360,5 @@
         });
 
     </script>
-
 
 @endsection
